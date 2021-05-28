@@ -1,24 +1,26 @@
 'use strict';
 //express 
 const express = require('express');
+const mongoose = require('mongoose');
+const base64 = require('base-64');
+const bcrypt = require('bcrypt');
+const morgan = require ('morgan');
+const bodyParser = require('body-parser');
+
+const router = require('./auth/router.js'); //import
 const app = express();
 //morgan 
-const morgan = require ('morgan');
 app.use(morgan('dev')); 
 // Process JSON input and put the data on req.body
 app.use(express.json());
-// Process FORM intput and put the data on req.body
-app.use(express.urlencoded({ extended: true }));
-//body parser
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
+
 //router 
-const router = require('./auth/router.js'); //import
-app.use('/',router);//use
+app.use('/',router);
+
 //export
 module.exports = {
-  server: app,
+  app,
   start: (port) => {
     const PORT = port || 3000;
     app.listen(PORT, () => console.log(`the server is up on ${PORT}`));

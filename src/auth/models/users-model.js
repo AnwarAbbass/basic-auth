@@ -9,17 +9,11 @@ const userScehma = new mongoose.Schema({
     password: { type: String, required: true },
 });
 //method 
-// model
 userScehma.pre('save', async function(next){
     const hash = await bcrypt.hash(this.password, 10);
     this.password=hash;
     next();
 });
 
-// userScehma.method.isAuthenticated = function (password) {
-//     return bcrypt.compare(password, this.password);
-//   };
-
-const User = mongoose.model('User', userScehma);
-//export model
-module.exports = User;
+// model
+module.exports = mongoose.model('user', userScehma);
